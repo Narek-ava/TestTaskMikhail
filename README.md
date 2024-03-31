@@ -16,6 +16,7 @@ php artisan db:seed
 
 php artisan serv
 
+npm run dev 
 ## defaultUser
 email: test@example.com
 password: password

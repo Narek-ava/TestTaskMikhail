@@ -20,15 +20,6 @@ class MessageController extends Controller
      */
     public function store(Request $request)
     {
-       $message =  new Message();
-       $message->user_id = $request->id;
-       $message->theme = 'Тема сообщения';
-       $message->text = 'Текст сообщения Текст сообщения Текст сообщения Текст
-сообщения Текст сообщения';
-       $message->status = 'unread';
-       $message->save();
-
-       return $message;
     }
 
     /**

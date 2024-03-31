@@ -3,11 +3,24 @@
 namespace App\Console\Commands;
 
 use App\Models\Message;
+use App\Services\MessageService;
 use Illuminate\Console\Command;
 use Illuminate\Support\Facades\Validator;
 
 class SendEmail extends Command
 {
+
+    public MessageService $messageService;
+
+    public function __construct(
+        MessageService $messageService
+    )
+    {
+        parent::__construct();
+
+        $this->messageService = $messageService;
+    }
+
     /**
      * The name and signature of the console command.
      *
@@ -45,18 +58,14 @@ class SendEmail extends Command
         $email = $this->option('email');
         $theme = $this->option('theme');
         $text = $this->option('text');
-        $this->info("Option value: $theme");
-        $this->info("Option value: $text");
         $user = \App\Models\User::query()->where('email',$email)->first();
 
-        $message =  new Message();
-        $message->user_id = $user->id;
-        $message->theme = $theme;
-        $message->text = $text;
-        $message->status = 'unread';
-        $message->save();
 
-        return "message sended successfully";
+        $message = $this->messageService->send($user->id, $theme, $text);
+
+            return $this->info($message);
+
+
 
     }
 }
