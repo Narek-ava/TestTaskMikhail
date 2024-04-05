@@ -2,6 +2,8 @@
 
 namespace App\Console\Commands;
 
+use App\Events\MessageSent;
+use App\Jobs\ProcessMessage;
 use App\Models\Message;
 use App\Services\MessageService;
 use Illuminate\Console\Command;
@@ -60,10 +62,11 @@ class SendEmail extends Command
         $text = $this->option('text');
         $user = \App\Models\User::query()->where('email',$email)->first();
 
+        $message = $message = "This is a test message";
+        dispatch(new ProcessMessage($this->messageService,$text,$theme,$user->id));
+        broadcast(new MessageSent($text,$theme));
 
-        $message = $this->messageService->send($user->id, $theme, $text);
-
-            return $this->info($message);
+        return $this->info($message);
 
 
 

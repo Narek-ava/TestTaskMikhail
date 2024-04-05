@@ -23,7 +23,7 @@ class MessageService
             $message->status = $status;
             $message->save();
             DB::commit();
-            return "Message sended successfully";
+            return $message;
 
         } catch (\Exception $exception) {
             DB::rollBack();

@@ -1,5 +1,6 @@
 <?php
 
+use App\Events\MessageSent;
 use App\Http\Controllers\MessageController;
 use App\Models\Message;
 use Illuminate\Foundation\Application;
@@ -41,4 +42,8 @@ Route::middleware([
     Route::get('/messages', [MessageController::class, 'index']);
     Route::get('/messages', [MessageController::class, 'latestMessage']);
     Route::post('/messages', [MessageController::class, 'store']);
+});
+
+Route::get('/broadcast',function (){
+   broadcast( new MessageSent('test'));
 });

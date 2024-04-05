@@ -1,6 +1,8 @@
 <script setup>
 import AppLayout from '@/Layouts/AppLayout.vue';
-import Welcome from '@/Components/Welcome.vue';
+import Echo from 'laravel-echo';
+
+
 </script>
 
 <template>
@@ -413,7 +415,13 @@ export default {
 
     created() {
         this.fetchLatestMessages();
-        setInterval(this.fetchLatestMessages, 2000);
+        // setInterval(this.fetchLatestMessages, 2000);
+        window.Echo.join('chat')
+                .listen('MessageSent', (event) => {
+                    this.messages.push(event.message);
+                    console.log('New message received:', event.message);
+                    // Handle the new message received in the chat
+                });
 
     },
 
